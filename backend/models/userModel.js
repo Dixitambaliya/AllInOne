@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb+srv://cal:cal111@cal.aorvb.mongodb.net/");
+const mongoURI = process.env.MONGO_URI;
 
 const userSchema = mongoose.Schema({
     email:String,

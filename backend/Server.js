@@ -10,9 +10,11 @@ const secretkey = 'your_secret_key_here'; // Replace this with your actual secre
 const userModel = require('./models/userModel');
 const Result = require('./models/resultModel');
 
-app.use(cors({ origin: 'https://allinone-1.onrender.com',
+app.use(cors({
+  origin: 'https://allinone-1.onrender.com',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-   credentials: true }));
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

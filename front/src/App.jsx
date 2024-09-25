@@ -16,7 +16,7 @@ import Distance2dCalculator from "./component/Calculator/GeoMatery/Distance2dCal
 import Distance3dCalculator from "./component/Calculator/GeoMatery/Distance3dCalculator";
 import IsoscelesTriangleCalculator from './component/Calculator/GeoMatery/IsoscelesTriangleCalculator'
 import RightAngledTriangleCalculator from './component/Calculator/GeoMatery/RightAngledTriangleCalculator'
-import ScaleneTriangleCalculator from './component/Calculator/GeoMatery/scaleneTriangleCalculator'
+import ScaleneTriangleCalculator from './component/Calculator/GeoMatery/ScaleneCalculator'
 import RectangleCalculator from './component/Calculator/GeoMatery/RectangleCalculator'
 import SquareCalculator from './component/Calculator/GeoMatery/SquareCalculator'
 import SphereCalculator from './component/Calculator/GeoMatery/SphereCalculator'
@@ -70,6 +70,7 @@ import AboutUs from './component/aboutus/AboutUs';
 import Result from './component/Results/Result'
 // import ContactUs from './component/Contact/Contactus'
 import UserProfile from './component/Profile/userProfile'
+import ScaleneCalculator from "./component/Calculator/GeoMatery/ScaleneCalculator";
 function App() {
   return (
     <Router>
@@ -104,7 +105,7 @@ function AppContent() {
         <Route path="/Distance2dCalculator" element={<Distance2dCalculator />} />
         <Route path='/Isoscesles' element={<IsoscelesTriangleCalculator/>} />
         <Route path='/RightAngled' element={<RightAngledTriangleCalculator/>} />
-        <Route path='/scalene' element={<ScaleneTriangleCalculator/>} />
+        <Route path='/scalene' element={<ScaleneCalculator/>} />
         <Route path='/Rectangle' element={<RectangleCalculator/>} />        
         <Route path="/CircleCalculator" element={<CircleCalculator />} />
         <Route path='/square' element={<SquareCalculator/>} />

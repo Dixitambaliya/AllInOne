@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import BackButton from '../Button/Back';
 import axios from 'axios';
 
-const ScaleneTriangleCalculator = () => {
+const ScaleneCalculator = () => {
   const [sideA, setSideA] = useState("");
   const [sideB, setSideB] = useState("");
   const [sideC, setSideC] = useState("");
@@ -118,4 +118,4 @@ const ScaleneTriangleCalculator = () => {
   );
 };
 
-export default ScaleneTriangleCalculator;
+export default ScaleneCalculator;

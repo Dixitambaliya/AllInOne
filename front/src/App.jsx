@@ -68,7 +68,7 @@ import TrigonometryCalculator from './component/Calculator/Scientific/Trigonomet
 
 import AboutUs from './component/aboutus/AboutUs';
 import Result from './component/Results/Result'
-import ContactUs from './component/Contact/Contactus'
+// import ContactUs from './component/Contact/Contactus'
 import UserProfile from './component/Profile/userProfile'
 function App() {
   return (
@@ -93,7 +93,7 @@ function AppContent() {
   
         <Route path="/about" element={<AboutUs/>} />
         <Route path="/Results" element={<Result/>} />
-        <Route path="/Contact" element={<ContactUs/>} />
+        {/* <Route path="/Contact" element={<ContactUs/>} /> */}
         <Route path="/Profile" element={<UserProfile/>} />
         
         <Route path="/GeoMatery" element={<GeoMatery />} />

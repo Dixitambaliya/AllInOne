@@ -28,7 +28,7 @@ const BMICalculator = () => {
   const submitData = async () => {
     try {
       // Send the simplified expression to the backend
-      await axios.post('http://localhost:3000/api/results', {
+      await axios.post('https://allinone-1-1.onrender.com/api/results', {
         calcTitle,
         results:resultData,
         inputs:inputData

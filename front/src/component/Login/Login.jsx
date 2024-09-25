@@ -25,7 +25,7 @@ const Login = () => {
     if (formData.email && formData.password) {
       try {
         const response = await axios.post(
-          'http://localhost:3000/api/login',{
+          'https://allinone-1-1.onrender.com/api/login',{
            email: formData.email,
          password: formData.password},
           { withCredentials: true } // Include credentials to allow cookies

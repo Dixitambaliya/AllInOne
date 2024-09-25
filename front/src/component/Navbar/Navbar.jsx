@@ -30,7 +30,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/api/logout', {}, { withCredentials: true });
+      const response = await axios.post('https://allinone-1-1.onrender.com/api/logout', {}, { withCredentials: true });
       if (response.data.message) {
         navigate('/');
         window.history.pushState(null, '', window.location.href);

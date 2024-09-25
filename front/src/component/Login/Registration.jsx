@@ -42,7 +42,7 @@ const Registration = () => {
     if (!validation()) return;
 
     try {
-      const response = await axios.post(`http://localhost:3000/api/register`, {
+      const response = await axios.post(`https://allinone-1-1.onrender.com/api/register`, {
         email: formData.email,
         password: formData.password,
       }, {

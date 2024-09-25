@@ -12,7 +12,7 @@ const UserProfile = () => {
 
   useEffect(() => {
  
-    axios.get('http://localhost:3000/api/profile', { withCredentials: true })
+    axios.get('https://allinone-1-1.onrender.com/api/profile', { withCredentials: true })
       .then(response => {
         setUser(response.data.user);
       })
@@ -34,7 +34,7 @@ const UserProfile = () => {
     if(!newEmail) {
       alert("Please enter new email ")
     }
-    axios.post('http://localhost:3000/api/updateEmail', { newEmail }, { withCredentials: true })
+    axios.post('https://allinone-1-1.onrender.com/api/updateEmail', { newEmail }, { withCredentials: true })
       .then(response => {
         alert(response.data.message);
         setUser({ ...user, email: newEmail });
@@ -50,7 +50,7 @@ const UserProfile = () => {
     if(!newPassword){
       alert("Please enter new password ");    
     }
-    axios.post('http://localhost:3000/api/updatePassword', { newPassword }, { withCredentials: true })
+    axios.post('https://allinone-1-1.onrender.com/api/updatePassword', { newPassword }, { withCredentials: true })
       .then(response => {
         alert(response.data.message);
         clearPassword();

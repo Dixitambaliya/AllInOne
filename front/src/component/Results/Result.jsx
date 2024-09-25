@@ -12,7 +12,7 @@ const Result = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/results`, {
+        const response = await axios.get(`https://allinone-1-1.onrender.com/api/results`, {
           withCredentials: true, // Include credentials to allow cookies
         });
 
@@ -33,7 +33,7 @@ const Result = () => {
 
   const deleteResult = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/results/${id}`, {
+      await axios.delete(`https://allinone-1-1.onrender.com/api/results/${id}`, {
         withCredentials: true, // Include credentials if necessary
       });
 

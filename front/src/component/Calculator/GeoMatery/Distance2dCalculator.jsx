@@ -37,7 +37,7 @@ const Distance2DCalculator = () => {
   const submitData = async () => {
     try {
       
-      await axios.post('http://localhost:3000/api/results', {
+      await axios.post('https://allinone-1-1.onrender.com/api/results', {
         calcTitle,
         results:distance,
         inputs:inputData

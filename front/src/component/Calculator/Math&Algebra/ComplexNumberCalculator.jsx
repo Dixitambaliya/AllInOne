@@ -40,7 +40,7 @@ const ComplexNumberCalculator = () => {
   
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/results`,
+        `https://allinone-1-1.onrender.com/api/results`,
         {
           calcTitle,
           results: resultsData,

@@ -197,6 +197,10 @@ app.post('/api/updatePassword',isAuthenticated, async (req, res) => {
   }
 });
 
+app.get('/bill', (req, res) => {
+  res.send("Bill endpoint is working!");
+});
+
 
 app.listen(3000, () => {
     console.log("Server is running on port 3000");

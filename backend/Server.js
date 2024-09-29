@@ -197,8 +197,8 @@ app.post('/api/updatePassword',isAuthenticated, async (req, res) => {
   }
 });
 
-app.get('/bill', (req, res) => {
-  res.send("Bill endpoint is working!");
+app.get('/age', (req, res) => {
+  res.send("age endpoint is working!");
 });
 
 

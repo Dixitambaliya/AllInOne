@@ -6,7 +6,7 @@ const Conversion = () => {
   const links = [
     { id: 1, 
       name: "BMI Calculator",
-      route: "BMI"
+      route: "./BMI"
      },
 
     { id: 2,

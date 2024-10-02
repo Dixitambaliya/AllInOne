@@ -103,8 +103,8 @@ app.post('/api/logout', (req, res) => {
 // Protected profile route
 app.get('/api/profile', isAuthenticated, async (req, res) => {
   try {
-    const userId = req.user.userid;
-    const user = await userModel.findById(userId).select('-password');
+    const userId = req.user.userid; // Extracting user ID from the decoded token
+    const user = await userModel.findById(userId).select('-password'); // Fetch user details excluding password
     if (!user) return res.status(404).json({ error: "User not found" });
     res.json({ user });
   } catch (err) {
@@ -116,7 +116,7 @@ app.get('/api/profile', isAuthenticated, async (req, res) => {
 app.post('/api/results', isAuthenticated, async (req, res) => {
   try {
     const { calcTitle, results, inputs } = req.body;
-    const userId = req.user.userid;
+    const userId = req.user.userid; // Get user ID from decoded token
 
     if (!calcTitle || !results || !inputs) {
       return res.status(400).json({ error: 'Bad Request: Missing fields' });

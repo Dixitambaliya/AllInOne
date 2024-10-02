@@ -128,17 +128,7 @@ app.post('/api/results',isAuthenticated, async (req, res) => {
   }
 });
 
-app.get('/api/results', isAuthenticated, async (req, res) => {
-  try {
-    const userId = req.user.userid;
-    const results = await Result.find({ user: userId });
-    res.json({ results });
-  } catch (err) {
-    console.error('Error fetching results:', err);
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
+ 
 app.delete('/api/results/:id', async (req, res) => {
   try {
     const resultId = req.params.id;
@@ -195,10 +185,6 @@ app.post('/api/updatePassword',isAuthenticated, async (req, res) => {
     console.error('Server error:', err);
     res.status(500).json({ error: 'Server error' });
   }
-});
-
-app.get('/age', (req, res) => {
-  res.send("age endpoint is working!");
 });
 
 

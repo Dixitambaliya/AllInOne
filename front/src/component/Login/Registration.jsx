@@ -42,24 +42,25 @@ const Registration = () => {
     if (!validation()) return;
 
     try {
-      const response = await axios.post(`https://allinone-1-1.onrender.com/api/register`, {
-        email: formData.email,
-        password: formData.password,
-      }, {
-        withCredentials: true, // Ensures cookies are sent along with the request
-    });
+        const response = await axios.post(`https://allinone-1-1.onrender.com/api/register`, {
+            email: formData.email,
+            password: formData.password,
+        }, {
+            withCredentials: true, // Ensures cookies are sent along with the request
+        });
 
-      if (response.status === 201) {
-        setTimeout(()=>{
-          navigate('/home');
-        },2000)
-
-      }
+        if (response.status === 201) {
+            console.log(response.data); // Add this line to log the response data
+            setTimeout(() => {
+                navigate('/home');
+            }, 2000);
+        }
     } catch (error) {
-      const errorMessage = error.response?.data?.error || 'Registration failed. Please try again.';
-      setError((prevError) => ({ ...prevError, general: errorMessage }));
+        const errorMessage = error.response?.data?.error || 'Registration failed. Please try again.';
+        setError((prevError) => ({ ...prevError, general: errorMessage }));
     }
-  };
+};
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">

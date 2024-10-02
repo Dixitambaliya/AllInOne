@@ -36,33 +36,34 @@ app.get('/api/protected/home', (req, res) => {
 // Register route
 app.post("/api/register", async (req, res) => {
   try {
-    const { email, password } = req.body;
+      const { email, password } = req.body;
 
-    const existingUser = await userModel.findOne({ email });
-    if (existingUser) return res.status(400).json({ error: "User already exists" });
+      const existingUser = await userModel.findOne({ email });
+      if (existingUser) return res.status(400).json({ error: "User already exists" });
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
 
-    const user = new userModel({
-      email,
-      password: hashedPassword,
-    });
-    await user.save();
+      const user = new userModel({
+          email,
+          password: hashedPassword,
+      });
+      await user.save();
 
-    const token = jwt.sign({ email: user.email, userid: user._id }, secretkey, { expiresIn: '1h' });
+      const token = jwt.sign({ email: user.email, userid: user._id }, secretkey, { expiresIn: '1h' });
 
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Lax',
-    });
+      res.cookie('token', token, {
+          httpOnly: true,
+          secure: process.env.JWT_SECRET === 'production',
+          sameSite: 'Lax',
+      });
 
-    return res.status(201).json({ message: "User registered successfully", token });
+      return res.status(201).json({ message: "User registered successfully", token });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err.message });
   }
 });
+
 
 // Login route
 app.post("/api/login", async (req, res) => {
@@ -79,7 +80,7 @@ app.post("/api/login", async (req, res) => {
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.JWT_SECRET=== 'production',
       sameSite: 'Lax',
     });
 
@@ -93,7 +94,7 @@ app.post("/api/login", async (req, res) => {
 app.post('/api/logout', (req, res) => {
   res.clearCookie('token', {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: process.env.JWT_SECRET === 'production',
     sameSite: 'Lax',
   });
   res.json({ message: 'Logged out successfully' });

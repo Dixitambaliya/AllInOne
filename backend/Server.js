@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const isAuthenticated = require('./middleware/authMiddleware');
+require('dotenv').config();
 
 const secretkey = process.env.JWT_SECRET; // Replace this with your actual secret key
 const userModel = require('./models/userModel');

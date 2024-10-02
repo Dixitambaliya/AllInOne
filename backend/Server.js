@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const isAuthenticated = require('./middleware/authMiddleware');
 require('dotenv').config(); // Make sure the .env file is properly loaded
 
-const secretkey = process.env.JWT_SECRET; // Secret key from .env
+const secretkey = process.env.NODE_ENV; // Secret key from .env
 const userModel = require('./models/userModel');
 const Result = require('./models/resultModel');
 
@@ -54,7 +54,7 @@ app.post("/api/register", async (req, res) => {
 
       res.cookie('token', token, {
           httpOnly: true,
-          secure: process.env.JWT_SECRET === 'production',
+          secure: process.env.NODE_ENV === 'production',
           sameSite: 'Lax',
       });
 
@@ -80,7 +80,7 @@ app.post("/api/login", async (req, res) => {
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.JWT_SECRET=== 'production',
+      secure: process.env.NODE_ENV=== 'production',
       sameSite: 'Lax',
     });
 
@@ -94,7 +94,7 @@ app.post("/api/login", async (req, res) => {
 app.post('/api/logout', (req, res) => {
   res.clearCookie('token', {
     httpOnly: true,
-    secure: process.env.JWT_SECRET === 'production',
+    secure: process.env.NODE_ENV === 'production',
     sameSite: 'Lax',
   });
   res.json({ message: 'Logged out successfully' });

@@ -135,7 +135,7 @@ function AppContent() {
         <Route path="/bill" element={<BillTipCalculator />} />       
         
         <Route path="/Health" element={<Health/>}/>
-        <Route path="/bmi" element={<BMICalculator />} />
+        <Route path="/BMI" element={<BMICalculator />} />
         <Route path="/bmr" element={<BMRCalculator />} />
         <Route path="/BodyFat" element={<BodyFatCalculator />} />
         <Route path="/calorie" element={<CalorieCalculator />} />

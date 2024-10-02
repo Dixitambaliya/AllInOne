@@ -5,131 +5,132 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const isAuthenticated = require('./middleware/authMiddleware');
-require('dotenv').config();
+require('dotenv').config(); // Make sure the .env file is properly loaded
 
-const secretkey = process.env.JWT_SECRET; // Replace this with your actual secret key
+const secretkey = process.env.JWT_SECRET; // Secret key from .env
 const userModel = require('./models/userModel');
 const Result = require('./models/resultModel');
 
-app.use(cors({ origin: 'https://allinone-1.onrender.com',
-   credentials: true }));
-   app.options('*', cors());
+app.use(cors({
+  origin: 'https://allinone-1.onrender.com',
+  credentials: true
+}));
+app.options('*', cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Root route
 app.get("/", (req, res) => {
-    res.send("Server Is Running");
+  res.send("Server Is Running");
 });
 
-
+// Protected route
 app.use('/api/protected', isAuthenticated);
-
 
 app.get('/api/protected/home', (req, res) => {
   res.json({ message: 'Welcome to the protected home page', user: req.user });
 });
 
+// Register route
 app.post("/api/register", async (req, res) => {
-    try {
-        const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-        const existingUser = await userModel.findOne({ email });
-        if (existingUser) return res.status(400).json({ error: "User already exists" });
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) return res.status(400).json({ error: "User already exists" });
 
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-        const user = new userModel({
-            email,
-            password: hashedPassword,
-        });
-        await user.save();
+    const user = new userModel({
+      email,
+      password: hashedPassword,
+    });
+    await user.save();
 
-        const token = jwt.sign({ email: user.email, userid: user._id }, secretkey, { expiresIn: '1h' });
+    const token = jwt.sign({ email: user.email, userid: user._id }, secretkey, { expiresIn: '1h' });
 
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Lax',
-        });
-        return res.status(201).json({ message: "User registered successfully", token });
-    } catch (err) {
-        return res.status(500).json({ error: err.message });
-    }
-});
-
-app.post("/api/login", async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      const user = await userModel.findOne({ email });
-  
-      if (!user) return res.status(400).json({ error: "User not found" });
-  
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) return res.status(400).json({ error: "Invalid password" });
-  
-      const token = jwt.sign({ email: user.email, userid: user._id }, secretkey, { expiresIn: '1h' });
-      
-      res.cookie('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'Lax',
-      });
-  
-      return res.json({ message: "Logged in successfully", token });
-    } catch (err) {
-      return res.status(500).json({ error: err.message });
-    }
-  });
-  
-
-app.post('/api/logout', (req, res) => {
-    res.clearCookie('token', {
+    res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'Lax',
     });
-    res.json({ message: 'Logged out successfully' });
-  });
 
-  app.get('/api/profile', isAuthenticated, async (req, res) => {
-    try {
-        const userId = req.user.userid;
-        const user = await userModel.findById(userId).select('-password'); 
-        if (!user) return res.status(404).json({ error: "User not found" });
-        res.json({ user });
-        // console.log(user);
-    } catch (err) {
-        return res.status(500).json({ error: err.message });
-    }
+    return res.status(201).json({ message: "User registered successfully", token });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 });
 
-app.post('/api/results',isAuthenticated, async (req, res) => {
-   try {
+// Login route
+app.post("/api/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await userModel.findOne({ email });
+
+    if (!user) return res.status(400).json({ error: "User not found" });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ error: "Invalid password" });
+
+    const token = jwt.sign({ email: user.email, userid: user._id }, secretkey, { expiresIn: '1h' });
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'Lax',
+    });
+
+    return res.json({ message: "Logged in successfully", token });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// Logout route
+app.post('/api/logout', (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'Lax',
+  });
+  res.json({ message: 'Logged out successfully' });
+});
+
+// Protected profile route
+app.get('/api/profile', isAuthenticated, async (req, res) => {
+  try {
+    const userId = req.user.userid;
+    const user = await userModel.findById(userId).select('-password');
+    if (!user) return res.status(404).json({ error: "User not found" });
+    res.json({ user });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// Save results route
+app.post('/api/results', isAuthenticated, async (req, res) => {
+  try {
     const { calcTitle, results, inputs } = req.body;
-    const userId = req.user.userid; 
+    const userId = req.user.userid;
 
-    console.log(results);
-    console.log(userId);
-
-    if (!calcTitle || !results || !userId || !inputs) {
+    if (!calcTitle || !results || !inputs) {
       return res.status(400).json({ error: 'Bad Request: Missing fields' });
     }
 
-    // Create a new result entry
-    const newResult = new Result({ calcTitle, results,inputs , user: userId, });
+    const newResult = new Result({ calcTitle, results, inputs, user: userId });
     await newResult.save();
 
     res.status(201).json({ message: 'Results saved successfully!', result: newResult });
   } catch (err) {
-    console.error('Server error:', err); 
     res.status(500).json({ error: 'Server error' });
   }
 });
 
- 
+// Delete result route
 app.delete('/api/results/:id', async (req, res) => {
   try {
     const resultId = req.params.id;
@@ -139,7 +140,9 @@ app.delete('/api/results/:id', async (req, res) => {
     res.status(500).json({ error: 'Failed to delete result' });
   }
 });
-app.post('/api/updateEmail',isAuthenticated, async (req, res) => {
+
+// Update email route
+app.post('/api/updateEmail', isAuthenticated, async (req, res) => {
   try {
     const { newEmail } = req.body;
     const userId = req.user.userid;
@@ -155,14 +158,13 @@ app.post('/api/updateEmail',isAuthenticated, async (req, res) => {
     }
 
     res.json({ message: 'Email updated successfully!' });
-
   } catch (err) {
-    console.error('Server error:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });
 
-app.post('/api/updatePassword',isAuthenticated, async (req, res) => {
+// Update password route
+app.post('/api/updatePassword', isAuthenticated, async (req, res) => {
   try {
     const { newPassword } = req.body;
     const userId = req.user.userid;
@@ -181,14 +183,11 @@ app.post('/api/updatePassword',isAuthenticated, async (req, res) => {
     }
 
     res.json({ message: 'Password updated successfully!' });
-
   } catch (err) {
-    console.error('Server error:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });
 
-
 app.listen(3000, () => {
-    console.log("Server is running on port 3000");
+  console.log("Server is running on port 3000");
 });

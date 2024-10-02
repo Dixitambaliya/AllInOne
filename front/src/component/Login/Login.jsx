@@ -21,30 +21,30 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (formData.email && formData.password) {
       try {
         const response = await axios.post(
-          'https://allinone-1-1.onrender.com/api/login', {
-            email: formData.email,
-            password: formData.password
-          },
-          { withCredentials: true }
+          'https://allinone-1-1.onrender.com/api/login',{
+           email: formData.email,
+         password: formData.password},
+          { withCredentials: true } // Include credentials to allow cookies
         );
-  
-        if (response.data.token) {
-          // Store the token in local storage or state if needed
-          localStorage.setItem('token', response.data.token);
-  
+
+        if (response.data.message) {
           setError('');
-          setTimeout(() => navigate('/home'), 2000); // Redirect to home on successful login
+          setTimeout(()=>
+            navigate('/home')
+          ,2000) // Redirect to home on successful login
         } else {
           setError('Invalid email or password.');
         }
       } catch (error) {
         if (error.response) {
+          // If the error comes from the server
           setError(error.response.data.error || 'Something went wrong.');
         } else {
+          // If the error is from the client-side
           setError('Network error. Please try again later.');
         }
       }
@@ -52,7 +52,7 @@ const Login = () => {
       setError('Please fill in both fields.');
     }
   };
-  
+
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <form

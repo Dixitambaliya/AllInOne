@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const isAuthenticated = require('./middleware/authMiddleware');
 
-const secretkey = 'your_secret_key_here'; // Replace this with your actual secret key
+const secretkey = process.env.JWT_SECRET; // Replace this with your actual secret key
 const userModel = require('./models/userModel');
 const Result = require('./models/resultModel');
 

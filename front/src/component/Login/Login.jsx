@@ -32,18 +32,15 @@ const Login = () => {
 
         if (response.data.message) {
           setError('');
-          // Store the JWT token securely (e.g., in localStorage or cookies)
-          localStorage.setItem('jwtToken', response.data.token); // Example for storing JWT
+          // The JWT will be set in the cookie by the backend
           setTimeout(() => navigate('/home'), 2000); // Redirect to home on successful login
         } else {
           setError('Invalid email or password.');
         }
       } catch (error) {
         if (error.response) {
-          // If the error comes from the server
           setError(error.response.data.error || 'Something went wrong.');
         } else {
-          // If the error is from the client-side
           setError('Network error. Please try again later.');
         }
       }

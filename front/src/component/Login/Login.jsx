@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -25,17 +24,16 @@ const Login = () => {
     if (formData.email && formData.password) {
       try {
         const response = await axios.post(
-          'https://allinone-1-1.onrender.com/api/login',{
-           email: formData.email,
-         password: formData.password},
+          'https://allinone-1-1.onrender.com/api/login',
+          { email: formData.email, password: formData.password },
           { withCredentials: true } // Include credentials to allow cookies
         );
 
         if (response.data.message) {
           setError('');
-          setTimeout(()=>
-            navigate('/home')
-          ,2000) // Redirect to home on successful login
+          // Store the JWT token securely (e.g., in localStorage or cookies)
+          localStorage.setItem('jwtToken', response.data.token); // Example for storing JWT
+          setTimeout(() => navigate('/home'), 2000); // Redirect to home on successful login
         } else {
           setError('Invalid email or password.');
         }
@@ -101,7 +99,7 @@ const Login = () => {
         </div>
 
         <div className="mt-4">
-<p className="text-gray-600 text-sm">
+          <p className="text-gray-600 text-sm">
             Don't have an account?{' '}
             <Link to="/registration" className="text-blue-500 hover:underline">
               Register here

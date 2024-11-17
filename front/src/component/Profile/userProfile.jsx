@@ -19,7 +19,7 @@ const UserProfile = () => {
       .catch(err => {
         if (err.response) {
           if (err.response.status === 401) {
-            setError("You need to be logged in.");
+            setError("You need to be logged in.");  
           } else {
             setError("Unauthorized access.");
           }

@@ -54,7 +54,7 @@ app.post("/api/register", async (req, res) => {
 
       res.cookie('token', token, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
+          secure: "asdfghjkl" === 'production',
           sameSite: 'Lax',
       });
 
@@ -80,7 +80,7 @@ app.post("/api/login", async (req, res) => {
 
     res.cookie('token', token, {
       httpOnly: true,
-      secure:  process.env.NODE_ENV=== 'production',
+      secure: "asdfghjkl"=== 'production',
       sameSite: 'Lax',
     });
 

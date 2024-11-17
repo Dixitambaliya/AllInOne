@@ -24,22 +24,26 @@ const Login = () => {
     if (formData.email && formData.password) {
       try {
         const response = await axios.post(
-          `https://allinone-1-1.onrender.com/api/login`,
-          { email: formData.email, password: formData.password },
+          'https://allinone-1-1.onrender.com/api/login',
+          { email: formData.email,
+             password: formData.password },
           { withCredentials: true } // Include credentials to allow cookies
         );
 
         if (response.data.message) {
           setError('');
-          // The JWT will be set in the cookie by the backend
+          // Store the JWT token securely (e.g., in localStorage or cookies)
+          localStorage.setItem('jwtToken', response.data.token); // Example for storing JWT
           setTimeout(() => navigate('/home'), 2000); // Redirect to home on successful login
         } else {
           setError('Invalid email or password.');
         }
       } catch (error) {
         if (error.response) {
+          // If the error comes from the server
           setError(error.response.data.error || 'Something went wrong.');
         } else {
+          // If the error is from the client-side
           setError('Network error. Please try again later.');
         }
       }

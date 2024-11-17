@@ -25,8 +25,7 @@ const Login = () => {
       try {
         const response = await axios.post(
           `https://allinone-1-1.onrender.com/api/login`,
-          { email: formData.email,
-             password: formData.password },
+          { email: formData.email, password: formData.password },
           { withCredentials: true } // Include credentials to allow cookies
         );
 

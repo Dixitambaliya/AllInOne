@@ -1,19 +1,25 @@
 const jwt = require('jsonwebtoken');
-const secretkey = "asdfghjkl";  
+const secretkey = process.env.JWT_SECRET || "asdfghjkl"; // Use environment variable for security
 
 const isAuthenticated = (req, res, next) => {
-  const token = req.cookies.token; // Get token from cookies
-
-  if (!token) {
-    return res.status(401).json({ message: 'Unauthorized: No token provided' });
-  }
-
   try {
-    const decoded = jwt.verify(token, secretkey); // Verify token using the secret key
-    req.user = { userid: decoded.userid }; // Attach user data to request object
-    next(); // Move to next middleware or route handler
+    const token = req.cookies?.token; // Safely access token from cookies
+
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    }
+
+    // Verify the token and decode the payload
+    const decoded = jwt.verify(token, secretkey);
+
+    // Attach user data to the request object
+    req.user = { userid: decoded.userid, email: decoded.email };
+
+    // Proceed to the next middleware or route handler
+    next();
   } catch (err) {
-    return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+    // Handle token errors
+    return res.status(401).json({ message: 'Unauthorized: Invalid or expired token', error: err.message });
   }
 };
 
